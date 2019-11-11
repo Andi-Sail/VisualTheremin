@@ -6,9 +6,16 @@
 import numpy as np
 import cv2
 import time
+import _thread
+import audio_poc as a
 
+_thread.start_new_thread ( a.play, () )
 
 cap = cv2.VideoCapture(0)
+
+width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH ))
+height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT ))
+
 
 while(True):
     t = time.process_time()
@@ -24,12 +31,12 @@ while(True):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) 
 
     # Range for lower red
-    lower_red = np.array([0,150,125])
+    lower_red = np.array([0,130,125])
     upper_red = np.array([5,255,255])
     mask1 = cv2.inRange(hsv, lower_red, upper_red)
     
     # Range for upper range
-    lower_red = np.array([175,150,125])
+    lower_red = np.array([175,130,125])
     upper_red = np.array([180,255,255])
     mask2 = cv2.inRange(hsv,lower_red,upper_red)
     
@@ -48,7 +55,10 @@ while(True):
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"])
             cv2.circle(frame, (cX, cY), 5, (255, 255, 255), -1)
-            cv2.putText(frame, "centroid", (cX - 25, cY - 25),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)        
+            cv2.putText(frame, "centroid", (cX - 25, cY - 25),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)   
+
+            a.pitch = cX*(a.maxPitch-a.minPitch)/width + a.minPitch
+            a.vol = cY*(a.maxVol-a.minVol)/height + a.minVol     
 
     # The bitwise and of the frame and mask is done so  
     # that only the blue coloured objects are highlighted  
