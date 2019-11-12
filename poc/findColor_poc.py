@@ -2,6 +2,8 @@
 #   https://www.learnopencv.com/invisibility-cloak-using-color-detection-and-segmentation-with-opencv/
 #   https://stackoverflow.com/questions/51229126/how-to-find-the-red-color-regions-using-opencv
 #   https://www.geeksforgeeks.org/detection-specific-colorblue-using-opencv-python/
+#   https://www.learnopencv.com/find-center-of-blob-centroid-using-opencv-cpp-python/
+
 
 import numpy as np
 import cv2
