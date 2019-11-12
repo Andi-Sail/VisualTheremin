@@ -16,9 +16,20 @@ cap = cv2.VideoCapture(0)
 width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH ))
 height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT ))
 
+frameCounter=0
+t = time.process_time()
+fps = 0
 
 while(True):
-    t = time.process_time()
+    if (frameCounter >= 10):
+        frameCounter = 0
+        elapsed_time = time.process_time() - t
+            
+        if (elapsed_time > 0):
+            fps = 10/(elapsed_time)
+        t = time.process_time()
+
+    frameCounter+=1
 
     # Capture frame-by-frame
     ret, frame = cap.read()
@@ -65,10 +76,6 @@ while(True):
     # and stored in res 
     res = cv2.bitwise_and(frame,frame, mask= mask) 
 
-    elapsed_time = time.process_time() - t
-    fps = float('inf')
-    if (elapsed_time > 0):
-        fps = 1/(elapsed_time)
     fpsS = "fps: " + str(fps)
     #print(fpsS)
     cv2.putText(frame, fpsS, (25, 25),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
