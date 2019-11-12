@@ -11,12 +11,20 @@ import time
 import _thread
 import audio_poc as a
 
+onPi = False
+
 _thread.start_new_thread ( a.play, () )
 
 cap = cv2.VideoCapture(0)
+#cap.set(cv2.CAP_PROP_FRAME_WIDTH, 640)
+#cap.set(cv2.CAP_PROP_FRAME_HEIGHT, 480)
+#cap.set(cv2.CAP_PROP_BRIGHTNESS, 1)
+#cap.set(cv2.CAP_PROP_CONTRAST, 1)
+#cap.set(cv2.CAP_PROP_SATURATION, 1)
+#cap.set(cv2.CAP_PROP_WB_TEMPERATURE, 45)
 
-width = int(cap.get(cv2.CAP_PROP_FRAME_WIDTH ))
-height = int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT ))
+width = 640
+height = 480
 
 frameCounter=0
 t = time.process_time()
@@ -44,23 +52,34 @@ while(True):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) 
 
     # Range for lower red
-    lower_red = np.array([0,130,125])
-    upper_red = np.array([5,255,255])
-    mask1 = cv2.inRange(hsv, lower_red, upper_red)
+    #lower_red = np.array([0,100,125])
+    #upper_red = np.array([10,255,255])
+    #mask1 = cv2.inRange(hsv, lower_red, upper_red)
     
     # Range for upper range
-    lower_red = np.array([175,130,125])
-    upper_red = np.array([180,255,255])
-    mask2 = cv2.inRange(hsv,lower_red,upper_red)
+    #lower_red = np.array([170,100,125])
+    #upper_red = np.array([180,255,255])
+    #mask2 = cv2.inRange(hsv,lower_red,upper_red)
     
     # Generating the final mask to detect red color
-    mask = mask1+mask2
+    #mask = mask1+mask2
+    
+    # Range for blue
+    lower_blue = np.array([110,130,125])
+    upper_blue = np.array([130,255,255])
+    mask = cv2.inRange(hsv, lower_blue, upper_blue)
   
     # find contours in the binary image
-    contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    
+    contours = None
+    if onPi:
+        contours = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[1]
+    else:
+        contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
+
     for c in contours:
         # calculate moments for each contour
+        #c = np.array(c)
+        #print (c, type(c))
         M = cv2.moments(c)
         
         # calculate x,y coordinate of center
