@@ -1,5 +1,6 @@
 import time
 
+# can be used to determine the actual frame rate of a real time image processing software
 class FpsCounter:
 
     frameCounter = 0
@@ -23,5 +24,6 @@ class FpsCounter:
 
             self.t = time.process_time()
 
+    # returns the last calculated average frame rage
     def getFps(self):
         return self.fps

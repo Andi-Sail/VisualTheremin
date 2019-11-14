@@ -11,6 +11,7 @@ class Point:
         self.x = x
         self.y = y
 
+# returns a binary image with all pixels matching the color '1' and everything else '0'
 def getBWMask(frame, color):
     mask = None
 
@@ -38,18 +39,20 @@ def getBWMask(frame, color):
 
     return mask
 
+# finds connected color areas of the given image frame and returns a list of Point objects
 def findColor(frame, color='red'):
 
-    onPi = False        # weather the code is run on the raspberry pi or a windows computer
+    # if the code is run on the raspberry pi or a windows computer for campatibility
+    onPi = False
 
     pointList = list()
 
-    # apply average filter to blur the image and remove nois
+    # apply average filter to blur the image and remove noise
     frame = cv2.blur(frame,(11,11))   
     #frame = cv2.GaussianBlur(frame,(11,11),0)
 
-    cv2.imshow('frame filtered',frame) 
-    cv2.waitKey(1)
+    #cv2.imshow('frame filtered',frame) 
+    #cv2.waitKey(1)
 
     mask = getBWMask(frame, color)
 
