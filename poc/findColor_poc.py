@@ -44,8 +44,9 @@ while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
 
-    kernelAverage = np.ones((5,5),np.float32)/25
-    frame = cv2.filter2D(frame,-1,kernelAverage)
+    #kernelAverage = np.ones((5,5),np.float32)/25
+    #frame = cv2.filter2D(frame,-1,kernelAverage)
+    frame = cv2.blur(frame,(11,11))   
 
 
     # Converts images from BGR to HSV 
