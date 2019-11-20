@@ -2,6 +2,10 @@
 import colorFinder as cf
 import cv2
 import fpsCounter
+import socket
+import communication as com
+
+sender = com.ThereminCommunication()
 
 # get image capture object
 cap = cv2.VideoCapture(0)
@@ -28,6 +32,11 @@ while(True):
     cv2.imshow('frame',frame) 
 
     # TODO compute pitch and volume from points. See example in poc/audio_poc.py
+
+    # TODO send actual pitch and volume
+    if (len(points) > 0):
+        sender.sendPitch(points[0].x)
+        sender.sendVol(points[0].y)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
