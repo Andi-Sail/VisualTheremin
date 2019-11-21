@@ -15,7 +15,6 @@ def receivePitch():
 
     while True:
         data, addr = receiver.pitchSock.recvfrom(1024) # buffer size is 1024 bytes
-        print("Recieved data" + str(data))
         pitch = float(data)
         print("new pitch: " + str(pitch))
 
@@ -25,7 +24,6 @@ def receiveVol():
 
     while True:
         data, addr = receiver.volSock.recvfrom(1024) # buffer size is 1024 bytes
-        print("Recieved data" + str(data))
         vol = float(data)
         print("new volume: " + str(vol))
 
@@ -35,8 +33,8 @@ def play():
     print("making music")
 
     while True:
-        ps.play(pitch, sustain=.05, attack=.05, release=.05, amp=vol)
-        ps.sleep(.05)
+        ps.play(pitch, sustain=.1, attack=.05, release=.05, amp=vol)
+        ps.sleep(.1)
 
 
 _thread.start_new_thread ( receivePitch, () )
