@@ -6,6 +6,7 @@ import socket
 import communication as com
 
 sender = com.ThereminCommunication()
+sender.connect()
 
 # get image capture object
 cap = cv2.VideoCapture(0)
