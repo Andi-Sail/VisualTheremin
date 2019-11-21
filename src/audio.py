@@ -3,12 +3,6 @@ import socket
 import communication as com
 import _thread
 
-maxPitch = 90
-minPitch = 40
-
-maxVol = 4
-minVol = .1
-
 vol=0
 pitch=0
 

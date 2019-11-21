@@ -4,7 +4,7 @@ import cv2
 import fpsCounter
 import socket
 import communication as com
-import audio
+import definitions as defs
 
 sender = com.ThereminCommunication()
 sender.connect()
@@ -38,8 +38,8 @@ while(True):
 
     # send pitch and volume
     if (len(points) > 0):
-        pitch = points[0].x*(audio.maxPitch-audio.minPitch)/width + audio.minPitch
-        vol = points[0].y*(audio.maxVol-audio.minVol)/height + audio.minVol
+        pitch = points[0].x*(defs.maxPitch-defs.minPitch)/width + defs.minPitch
+        vol = points[0].y*(defs.maxVol-defs.minVol)/height + defs.minVol
         sender.sendPitch(pitch)
         sender.sendVol(vol)
 
