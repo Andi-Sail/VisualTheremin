@@ -25,7 +25,7 @@ def getBWMask(frame, color):
         mask1 = cv2.inRange(hsv, lower_red, upper_red)
         
         # Range for upper range
-        lower_red = np.array([175,130,125])
+        lower_red = np.array([175,115,125])
         upper_red = np.array([180,255,255])
         mask2 = cv2.inRange(hsv,lower_red,upper_red)
         
@@ -33,7 +33,7 @@ def getBWMask(frame, color):
         mask = mask1+mask2
     elif color == 'blue':
         # Range for blue
-        lower_blue = np.array([110,130,125])
+        lower_blue = np.array([110,115,125])
         upper_blue = np.array([130,255,255])
         mask = cv2.inRange(hsv, lower_blue, upper_blue)
 
