@@ -4,6 +4,7 @@ import cv2
 import fpsCounter
 import socket
 import communication as com
+import audio
 
 sender = com.ThereminCommunication()
 sender.connect()
@@ -11,6 +12,9 @@ sender.connect()
 # get image capture object
 cap = cv2.VideoCapture(0)
 fps = fpsCounter.FpsCounter()
+
+width = int(cap.get(3)) # float
+height = int(cap.get(4)) # float
 
 while(True):    
     # Capture frame-by-frame
@@ -32,12 +36,12 @@ while(True):
     # show current image
     cv2.imshow('frame',frame) 
 
-    # TODO compute pitch and volume from points. See example in poc/audio_poc.py
-
-    # TODO send actual pitch and volume
+    # send pitch and volume
     if (len(points) > 0):
-        sender.sendPitch(points[0].x)
-        sender.sendVol(points[0].y)
+        pitch = points[0].x*(audio.maxPitch-audio.minPitch)/width + audio.minPitch
+        vol = points[0].y*(audio.maxVol-audio.minVol)/height + audio.minVol
+        sender.sendPitch(pitch)
+        sender.sendVol(vol)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
