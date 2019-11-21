@@ -58,4 +58,10 @@ class box:
 
         return points
 
+    def getVolBoxHeight(self):
+        return self.end_point_vol[1] - self.start_point_vol[1]
+
+    def getPitchBoxWidth(self):
+        return self.end_point_pitch[0] - self.start_point_pitch[0]
+
    

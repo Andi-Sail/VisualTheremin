@@ -6,6 +6,7 @@ import socket
 import communication as com
 import definitions as defs
 import box
+import math
 
 sender = com.ThereminCommunication()
 sender.connect()
@@ -48,11 +49,12 @@ while(True):
     cv2.imshow('pitch',pitchSection) 
 
     if (len(pointsPitch) > 0):
-        pitch = pointsPitch[0].x*(defs.maxPitch-defs.minPitch)/width + defs.minPitch
+        pitch = pointsPitch[0].x*(defs.maxPitch-defs.minPitch)/boxer.getPitchBoxWidth() + defs.minPitch
         sender.sendPitch(pitch)
 
     if (len(pointsVol) > 0):
-        vol = pointsVol[0].y*(defs.maxVol-defs.minVol)/height + defs.minVol
+        vol = pointsVol[0].y*(defs.maxVol-defs.minVol)/boxer.getVolBoxHeight() + defs.minVol
+        #vol = math.log10((pointsVol[0].y / boxer.getVolBoxHeight())*9 +1 ) *(defs.maxVol-defs.minVol) + defs.minVol
         vol = defs.maxVol - vol
         sender.sendVol(vol)
 
