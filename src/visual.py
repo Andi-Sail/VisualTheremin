@@ -51,8 +51,7 @@ while(True):
         sender.sendPitch(pitch)
 
     if (len(pointsVol) > 0):
-        vol = pointsVol[0].y*(defs.maxVol-defs.minVol)/boxer.getVolBoxHeight() + defs.minVol
-        #vol = math.log10((pointsVol[0].y / boxer.getVolBoxHeight())*9 +1 ) *(defs.maxVol-defs.minVol) + defs.minVol
+        vol = (math.e**(pointsVol[0].y / boxer.getVolBoxHeight()) -1) / (math.e-1) * (defs.maxVol-defs.minVol) + defs.minVol
         vol = defs.maxVol - vol
         sender.sendVol(vol)
 
