@@ -3,7 +3,7 @@ import socket
 class ThereminCommunication:
 
     UDP_IP_VISUAL = "piar.local"
-    UDP_IP_AUDIO =  "ESKTOP-A4L73LO.local"
+    UDP_IP_AUDIO =  "DESKTOP-A4L73LO.local"
     UDP_PORT_PITCH = 5005
     UDP_PORT_VOL = 5006
 
