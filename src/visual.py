@@ -26,9 +26,11 @@ while(True):
     ret, frame = cap.read()
     frame = cv2.flip(frame, 1)
 
-    # TODO: crop image section and compute points from sections
-    # example to crop:         img_section = img[y:y+h, x:x+w]
-    points = cf.findColor(frame, 'red', False)
+    volSection, pitchSection = boxer.getVolPitchSection(frame)
+    pointsVol = cf.findColor(volSection, 'red', False)
+    pointsPitch = cf.findColor(pitchSection, 'red', False)
+
+    points = boxer.transformPointsToFrame(pointsVol, pointsPitch)
 
     # draw found point in to original frame
     for p in points:
@@ -42,12 +44,16 @@ while(True):
 
     # show current image
     cv2.imshow('frame',frame) 
+    cv2.imshow('vol',volSection) 
+    cv2.imshow('pitch',pitchSection) 
 
-    # send pitch and volume
-    if (len(points) > 0):
-        pitch = points[0].x*(defs.maxPitch-defs.minPitch)/width + defs.minPitch
-        vol = points[0].y*(defs.maxVol-defs.minVol)/height + defs.minVol
+    if (len(pointsPitch) > 0):
+        pitch = pointsPitch[0].x*(defs.maxPitch-defs.minPitch)/width + defs.minPitch
         sender.sendPitch(pitch)
+
+    if (len(pointsVol) > 0):
+        vol = pointsVol[0].y*(defs.maxVol-defs.minVol)/height + defs.minVol
+        vol = defs.maxVol - vol
         sender.sendVol(vol)
 
     if cv2.waitKey(1) & 0xFF == ord('q'):
