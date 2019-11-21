@@ -18,7 +18,7 @@ while(True):
 
     # TODO: crop image section and compute points from sections
     # example to crop:         img_section = img[y:y+h, x:x+w]
-    points = cf.findColor(frame, 'red')
+    points = cf.findColor(frame, 'red', False)
 
     # draw found point in to original frame
     for p in points:

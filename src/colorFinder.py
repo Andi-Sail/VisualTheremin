@@ -40,7 +40,7 @@ def getBWMask(frame, color):
     return mask
 
 # finds connected color areas of the given image frame and returns a list of Point objects
-def findColor(frame, color='red'):
+def findColor(frame, color='red', findeMultiple=True):
 
     # if the code is run on the raspberry pi or a windows computer for campatibility
     onPi = False
@@ -56,22 +56,32 @@ def findColor(frame, color='red'):
 
     mask = getBWMask(frame, color)
 
-    # find contours in the binary image
-    contours = None
-    if onPi:
-        contours = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[1]
-    else:
-        contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
-    
-    for c in contours:
-        # calculate moments for each contour
-        M = cv2.moments(c)
+    if findeMultiple:
+        # find contours in the binary image
+        contours = None
+        if onPi:
+            contours = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[1]
+        else:
+            contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)
         
+        for c in contours:
+            # calculate moments for each contour
+            M = cv2.moments(c)
+            
+            # calculate x,y coordinate of center
+            if not M["m00"] == 0:
+                cX = int(M["m10"] / M["m00"])
+                cY = int(M["m01"] / M["m00"]) 
+                pointList.append(Point(cX, cY))
+    else:
+        # calculate moment for the mask
+        M = cv2.moments(mask, True)
         # calculate x,y coordinate of center
         if not M["m00"] == 0:
             cX = int(M["m10"] / M["m00"])
             cY = int(M["m01"] / M["m00"]) 
             pointList.append(Point(cX, cY))
+
 
     return pointList
   
