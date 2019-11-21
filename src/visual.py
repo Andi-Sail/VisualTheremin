@@ -5,6 +5,7 @@ import fpsCounter
 import socket
 import communication as com
 import definitions as defs
+import box
 
 sender = com.ThereminCommunication()
 sender.connect()
@@ -15,11 +16,15 @@ fps = fpsCounter.FpsCounter()
 
 width = int(cap.get(3)) # float
 height = int(cap.get(4)) # float
+print("This Video Resulation is " + str(width) + " by " + str(height))
+
+boxer = box.box(width, height)
 
 while(True):    
     # Capture frame-by-frame
     fps.newFrame()
     ret, frame = cap.read()
+    frame = cv2.flip(frame, 1)
 
     # TODO: crop image section and compute points from sections
     # example to crop:         img_section = img[y:y+h, x:x+w]
@@ -31,8 +36,10 @@ while(True):
 
     # show frames per second on image
     fpsS = "fps: " + "{:5.2f}".format(fps.getFps())
-    cv2.putText(frame, fpsS, (25, 25),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
+    cv2.putText(frame, fpsS, (width - 100, 25),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
     
+    frame = boxer.drawBoxes(frame)
+
     # show current image
     cv2.imshow('frame',frame) 
 
