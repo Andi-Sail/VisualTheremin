@@ -11,6 +11,7 @@ receiver.bind()
 
 def receivePitch():
     global receiver
+    global pitch
 
     while True:
         data, addr = receiver.pitchSock.recvfrom(1024) # buffer size is 1024 bytes
@@ -20,6 +21,7 @@ def receivePitch():
 
 def receiveVol():
     global receiver
+    global vol
 
     while True:
         data, addr = receiver.volSock.recvfrom(1024) # buffer size is 1024 bytes
