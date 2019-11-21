@@ -44,9 +44,7 @@ while(True):
     frame = boxer.drawBoxes(frame)
 
     # show current image
-    cv2.imshow('frame',frame) 
-    cv2.imshow('vol',volSection) 
-    cv2.imshow('pitch',pitchSection) 
+    cv2.imshow('frame',frame)
 
     if (len(pointsPitch) > 0):
         pitch = pointsPitch[0].x*(defs.maxPitch-defs.minPitch)/boxer.getPitchBoxWidth() + defs.minPitch
