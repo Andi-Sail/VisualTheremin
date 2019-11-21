@@ -1,4 +1,5 @@
 import cv2
+import colorFinder as cf
 
 class box:
     width = 0
@@ -45,5 +46,16 @@ class box:
         pitchSection = frame[self.start_point_pitch[1]:self.end_point_pitch[1], self.start_point_pitch[0]:self.end_point_pitch[0]]
 
         return volSection, pitchSection
+
+    def transformPointsToFrame(self, pointsVol, pointsPitch):
+        points = list()
+
+        for p in pointsVol:
+            points.append(cf.Point(p.x + self.start_point_vol[0], p.y + self.start_point_vol[1]))
+
+        for p in pointsPitch:
+            points.append(cf.Point(p.x + self.start_point_pitch[0], p.y + self.start_point_pitch[1]))
+
+        return points
 
    
