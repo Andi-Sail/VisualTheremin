@@ -8,6 +8,21 @@ To activate the audio run the audio.py script and make sure the ip adresses in c
 ## Hardware and Software
 This project will use Raspberry Pi's with python, openCv and SonicPi.
 
+## Installation
+The necessary software components are:
+* opencv-python
+  * https://pypi.org/project/opencv-python/
+    ```
+    pip install opencv-python
+    ```
+* Sonic Pi
+  * https://sonic-pi.net/
+* python-sonic
+  * https://pypi.org/project/python-sonic/
+    ```
+    pip install python-sonic
+    ```
+
 ## Version Control
 As a version control github is used. The recomended GUI for the client is Sourcetree availabel at https://www.sourcetreeapp.com/
 
