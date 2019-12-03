@@ -41,12 +41,14 @@ class box:
 
         return frame
 
+    # returns two images cropped from the full frame
     def getVolPitchSection(self, frame):
         volSection = frame[self.start_point_vol[1]:self.end_point_vol[1], self.start_point_vol[0]:self.end_point_vol[0]]
         pitchSection = frame[self.start_point_pitch[1]:self.end_point_pitch[1], self.start_point_pitch[0]:self.end_point_pitch[0]]
 
         return volSection, pitchSection
 
+    # transformes the given points from the volume or pitch frame back to the full frame
     def transformPointsToFrame(self, pointsVol, pointsPitch):
         points = list()
 
@@ -58,9 +60,11 @@ class box:
 
         return points
 
+    # returns the full height of the volume box
     def getVolBoxHeight(self):
         return self.end_point_vol[1] - self.start_point_vol[1]
 
+    # returns the full width of the pitch box
     def getPitchBoxWidth(self):
         return self.end_point_pitch[0] - self.start_point_pitch[0]
 

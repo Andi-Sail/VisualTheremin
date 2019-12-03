@@ -19,23 +19,23 @@ def getBWMask(frame, color):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) 
 
     if color == 'red':
-        # Range for lower red
-        lower_red = np.array([0,130,125])
-        upper_red = np.array([5,255,255])
-        mask1 = cv2.inRange(hsv, lower_red, upper_red)
+        # Range for red with low angle
+        lowRed = np.array([0,130,125])
+        HighRed = np.array([5,255,255])
+        mask1 = cv2.inRange(hsv, lowRed, HighRed)
         
-        # Range for upper range
-        lower_red = np.array([175,115,125])
-        upper_red = np.array([180,255,255])
-        mask2 = cv2.inRange(hsv,lower_red,upper_red)
+        # Range for red with high angle
+        lowRed = np.array([175,115,125])
+        HighRed = np.array([180,255,255])
+        mask2 = cv2.inRange(hsv,lowRed,HighRed)
         
         # Generating the final mask to detect red color
         mask = mask1+mask2
     elif color == 'blue':
         # Range for blue
-        lower_blue = np.array([110,115,125])
-        upper_blue = np.array([130,255,255])
-        mask = cv2.inRange(hsv, lower_blue, upper_blue)
+        lowBlue = np.array([110,115,125])
+        HighBlue = np.array([130,255,255])
+        mask = cv2.inRange(hsv, lowBlue, HighBlue)
 
     return mask
 
@@ -51,6 +51,7 @@ def findColor(frame, color='red', findeMultiple=True):
     frame = cv2.blur(frame,(11,11))   
     #frame = cv2.GaussianBlur(frame,(11,11),0)
 
+    # show filtered image
     #cv2.imshow('frame filtered',frame) 
     #cv2.waitKey(1)
 
@@ -60,6 +61,7 @@ def findColor(frame, color='red', findeMultiple=True):
         # find contours in the binary image
         contours = None
         if onPi:
+            # used for compatibility
             contours = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)[1]
         else:
             contours, hierarchy = cv2.findContours(mask,cv2.RETR_TREE,cv2.CHAIN_APPROX_SIMPLE)

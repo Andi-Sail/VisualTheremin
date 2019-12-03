@@ -8,29 +8,36 @@ import definitions as defs
 import box
 import math
 
+# init sender for pitch and volume
 sender = com.ThereminCommunication()
 sender.connect()
 
-# get image capture object
+# get the camera
 cap = cv2.VideoCapture(0)
 fps = fpsCounter.FpsCounter()
 
-width = int(cap.get(3)) # float
-height = int(cap.get(4)) # float
+# determine the image resolution
+width = int(cap.get(3))
+height = int(cap.get(4))
 print("This Video Resulation is " + str(width) + " by " + str(height))
 
+# init box with image resolution
 boxer = box.box(width, height)
 
 while(True):    
-    # Capture frame-by-frame
+    # Capture new frame
     fps.newFrame()
     ret, frame = cap.read()
     frame = cv2.flip(frame, 1)
 
+    # get individual sections for pitch and volume
     volSection, pitchSection = boxer.getVolPitchSection(frame)
+
+    # find colored points in each sections
     pointsVol = cf.findColor(volSection, 'red', False)
     pointsPitch = cf.findColor(pitchSection, 'red', False)
 
+    # transform coordinates back to the full frame
     points = boxer.transformPointsToFrame(pointsVol, pointsPitch)
 
     # draw found point in to original frame
@@ -41,11 +48,13 @@ while(True):
     fpsS = "fps: " + "{:5.2f}".format(fps.getFps())
     cv2.putText(frame, fpsS, (width - 100, 25),cv2.FONT_HERSHEY_SIMPLEX, 0.5, (255, 255, 255), 2)
     
+    # draw boxes on the image
     frame = boxer.drawBoxes(frame)
 
     # show current image
     cv2.imshow('frame',frame)
 
+    # send new pitch and volume to audio module
     if (len(pointsPitch) > 0):
         pitch = pointsPitch[0].x*(defs.maxPitch-defs.minPitch)/boxer.getPitchBoxWidth() + defs.minPitch
         sender.sendPitch(pitch)
@@ -55,6 +64,7 @@ while(True):
         vol = defs.maxVol - vol
         sender.sendVol(vol)
 
+    # check if user wants to quit
     if cv2.waitKey(1) & 0xFF == ord('q'):
         break
     

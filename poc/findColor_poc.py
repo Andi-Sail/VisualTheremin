@@ -53,22 +53,22 @@ while(True):
     hsv = cv2.cvtColor(frame, cv2.COLOR_BGR2HSV) 
 
     # Range for lower red
-    #lower_red = np.array([0,100,125])
-    #upper_red = np.array([10,255,255])
-    #mask1 = cv2.inRange(hsv, lower_red, upper_red)
+    lower_red = np.array([0,160,125])
+    upper_red = np.array([5,255,255])
+    mask1 = cv2.inRange(hsv, lower_red, upper_red)
     
     # Range for upper range
-    #lower_red = np.array([170,100,125])
-    #upper_red = np.array([180,255,255])
-    #mask2 = cv2.inRange(hsv,lower_red,upper_red)
+    lower_red = np.array([175,160,125])
+    upper_red = np.array([180,255,255])
+    mask2 = cv2.inRange(hsv,lower_red,upper_red)
     
     # Generating the final mask to detect red color
-    #mask = mask1+mask2
+    mask = mask1+mask2
     
     # Range for blue
-    lower_blue = np.array([110,130,125])
-    upper_blue = np.array([130,255,255])
-    mask = cv2.inRange(hsv, lower_blue, upper_blue)
+    #lower_blue = np.array([110,130,125])
+    #upper_blue = np.array([130,255,255])
+    #mask = cv2.inRange(hsv, lower_blue, upper_blue)
   
     # find contours in the binary image
     contours = None
